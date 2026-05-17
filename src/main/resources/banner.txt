@@ -1,0 +1,10 @@
+${AnsiColor.GREEN}
+   ____    ____   ____
+  / __ \  / ___| / ___|
+ | |  | || |  _ | |
+ | |__| || |_| || |___
+  \____/  \____| \____|
+
+${AnsiColor.CYAN}  CBD Store Management System
+${AnsiColor.YELLOW}  Spring Boot ${spring-boot.version}  |  Java ${java.version}
+${AnsiStyle.DEFAULT}
