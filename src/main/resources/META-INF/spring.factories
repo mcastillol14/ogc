@@ -1,0 +1,2 @@
+org.springframework.boot.EnvironmentPostProcessor=\
+  com.ogc_prototype.ogc.config.DotenvEnvironmentPostProcessor
