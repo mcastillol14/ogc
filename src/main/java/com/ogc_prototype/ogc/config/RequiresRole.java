@@ -11,3 +11,4 @@ import java.lang.annotation.*;
 public @interface RequiresRole {
     Role[] value();
 }
+

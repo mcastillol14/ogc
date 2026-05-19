@@ -2,7 +2,6 @@ package com.ogc_prototype.ogc.model;
 
 import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,40 +18,22 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "providers")
+@Table(name = "inventory_adjustments")
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Provider {
+public class InventoryAdjustment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String reason;
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(nullable = false, unique = true)
-    private String phoneNumber;
-
-    @Column
-    private String website;
-
-    @Column(columnDefinition = "TEXT")
-    private String notes;
-
-    @Builder.Default
-    @Column(nullable = false)
-    private boolean active = true;
-
+    // los ajustes no se modifican, se crean nuevos para corregir
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
-    
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 }
 

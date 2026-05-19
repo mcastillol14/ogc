@@ -48,3 +48,4 @@ public class JwtFilter extends OncePerRequestFilter {
         response.getWriter().write("{\"error\": \"" + message + "\"}");
     }
 }
+

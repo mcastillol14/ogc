@@ -14,3 +14,4 @@ public class PasswordManager {
         return BCrypt.checkpw(rawPassword, hashedPassword);
     }
 }
+

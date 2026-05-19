@@ -55,3 +55,4 @@ public class RoleInterceptor implements HandlerInterceptor {
         response.getWriter().write("{\"error\": \"" + message + "\"}");
     }
 }
+

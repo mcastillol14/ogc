@@ -19,10 +19,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "providers")
+@Table(name = "products")
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Provider {
+
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,19 +31,33 @@ public class Provider {
     private Integer id;
 
     @Column(nullable = false, unique = true)
+    private String skuCode;
+
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(nullable = false, unique = true)
-    private String phoneNumber;
-
-    @Column
-    private String website;
-
     @Column(columnDefinition = "TEXT")
-    private String notes;
+    private String description;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Double price = 0.0;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Double cbdPercentage = 0.0;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Double thcPercentage = 0.0;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Double cbgPercentage = 0.0;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Double cbnPercentage = 0.0;
 
     @Builder.Default
     @Column(nullable = false)
@@ -51,8 +66,8 @@ public class Provider {
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
-    
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
 }
 

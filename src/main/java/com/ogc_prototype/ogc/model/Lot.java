@@ -1,13 +1,17 @@
 package com.ogc_prototype.ogc.model;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,34 +23,36 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "providers")
+@Table(name = "lots")
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Provider {
+public class Lot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
-    @Column(nullable = false, unique = true)
-    private String phoneNumber;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "provider_id", nullable = false)
+    private Provider provider;
 
-    @Column
-    private String website;
+    @Column(nullable = false)
+    private Double weight;
+
+    @Column(nullable = false)
+    private Date expirationDate;
 
     @Column(columnDefinition = "TEXT")
-    private String notes;
-
-    @Builder.Default
-    @Column(nullable = false)
-    private boolean active = true;
+    private String description;
 
     @CreationTimestamp
     @Column(updatable = false)

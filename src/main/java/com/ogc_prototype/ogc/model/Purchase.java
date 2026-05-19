@@ -1,13 +1,17 @@
 package com.ogc_prototype.ogc.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,39 +23,35 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "providers")
+@Table(name = "purchases")
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Provider {
+public class Purchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "provider_id", nullable = false)
+    private Provider provider;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+    private LocalDate expectedDate;
 
-    @Column(nullable = false, unique = true)
-    private String phoneNumber;
+    private LocalDate receivedDate;
 
-    @Column
-    private String website;
+    @Builder.Default
+    @Column(nullable = false)
+    private Double totalAmount = 0.0;
 
     @Column(columnDefinition = "TEXT")
     private String notes;
 
-    @Builder.Default
-    @Column(nullable = false)
-    private boolean active = true;
-
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
-    
+
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 }

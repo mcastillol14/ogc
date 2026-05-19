@@ -28,18 +28,25 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer id;
+
     @Column(nullable = false, unique = true)
     private String name;
+
     @Column(nullable = false, unique = true, length = 100)
     private String slug;
+
     @Column(columnDefinition = "TEXT")
     private String description;
+
     @Builder.Default
     @Column(nullable = false)
-    private boolean activo = true;
+    private boolean active = true;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
+    
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 }
+
