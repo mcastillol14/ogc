@@ -11,7 +11,6 @@ public class LotResponse {
     private Integer id;
     private Integer productId;
     private String productName;
-    private String productSku;
     private Integer categoryId;
     private String categoryName;
     private Integer providerId;

@@ -8,7 +8,6 @@ import lombok.Data;
 @Builder
 public class ProductResponse {
     private Integer id;
-    private String skuCode;
     private String name;
     private String description;
     private Double price;

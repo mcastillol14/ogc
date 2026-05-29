@@ -30,9 +30,6 @@ public class Product {
     @EqualsAndHashCode.Include
     private Integer id;
 
-    @Column(nullable = false, unique = true)
-    private String skuCode;
-
     @Column(nullable = false)
     private String name;
 

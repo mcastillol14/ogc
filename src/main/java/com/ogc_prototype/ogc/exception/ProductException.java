@@ -12,15 +12,6 @@ public class ProductException extends AppException {
         return new ProductException(HttpStatus.NOT_FOUND, "Producto no encontrado con id: " + id);
     }
 
-    public static ProductException notFound(String sku) {
-        return new ProductException(HttpStatus.NOT_FOUND, "Producto no encontrado con SKU: " + sku);
-    }
-
-    public static ProductException duplicateSku(String sku) {
-        return new ProductException(HttpStatus.CONFLICT,
-                "Ya existe un producto con el SKU '" + sku + "'");
-    }
-
     public static ProductException inactive(Integer id) {
         return new ProductException(HttpStatus.UNPROCESSABLE_CONTENT,
                 "El producto con id " + id + " está inactivo");

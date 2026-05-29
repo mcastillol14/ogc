@@ -16,9 +16,6 @@ import lombok.NoArgsConstructor;
 public class ProductRequest {
 
     @NotBlank
-    private String skuCode;
-
-    @NotBlank
     private String name;
 
     private String description;

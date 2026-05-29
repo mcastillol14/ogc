@@ -11,7 +11,6 @@ public class PurchaseLineResponse {
     private Integer purchaseId;
     private Integer productId;
     private String productName;
-    private String productSku;
     private Double orderedWeightKg;
     private Double unitPricePerKg;
     private Integer lotId; // null until the purchase is received
