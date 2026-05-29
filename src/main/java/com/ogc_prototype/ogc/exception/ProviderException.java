@@ -16,5 +16,20 @@ public class ProviderException extends AppException {
         return new ProviderException(HttpStatus.UNPROCESSABLE_CONTENT,
                 "El proveedor con id " + id + " está inactivo");
     }
+
+    public static ProviderException duplicateName(String name) {
+        return new ProviderException(HttpStatus.CONFLICT,
+                "Ya existe un proveedor con el nombre '" + name + "'");
+    }
+
+    public static ProviderException duplicateEmail(String email) {
+        return new ProviderException(HttpStatus.CONFLICT,
+                "Ya existe un proveedor con el email '" + email + "'");
+    }
+
+    public static ProviderException duplicatePhone(String phone) {
+        return new ProviderException(HttpStatus.CONFLICT,
+                "Ya existe un proveedor con el teléfono '" + phone + "'");
+    }
 }
 

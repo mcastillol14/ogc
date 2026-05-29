@@ -15,4 +15,6 @@ public interface PurchaseLineRepository extends JpaRepository<PurchaseLine, Inte
     List<PurchaseLine> findAllByProductId(Integer productId);
 
     Optional<PurchaseLine> findByIdAndPurchaseId(Integer id, Integer purchaseId);
+
+    boolean existsByLotIdAndIdNot(Integer lotId, Integer id);
 }

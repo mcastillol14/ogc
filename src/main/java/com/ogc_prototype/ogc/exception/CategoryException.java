@@ -21,5 +21,10 @@ public class CategoryException extends AppException {
         return new CategoryException(HttpStatus.CONFLICT,
                 "Ya existe una categoría con el slug '" + slug + "'");
     }
+
+    public static CategoryException inactive(Integer id) {
+        return new CategoryException(HttpStatus.UNPROCESSABLE_CONTENT,
+                "La categoría con id " + id + " está inactiva");
+    }
 }
 
