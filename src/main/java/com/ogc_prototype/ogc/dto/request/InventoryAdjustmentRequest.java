@@ -1,6 +1,7 @@
 package com.ogc_prototype.ogc.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class InventoryAdjustmentRequest {
 
     @NotBlank
+    @Size(max = 500)
     private String reason;
 }
 

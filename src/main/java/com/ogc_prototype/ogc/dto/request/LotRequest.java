@@ -4,6 +4,7 @@ import java.util.Date;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,6 +33,7 @@ public class LotRequest {
     @Future
     private Date expirationDate;
 
+    @Size(max = 500)
     private String description;
 }
 

@@ -1,5 +1,6 @@
 package com.ogc_prototype.ogc.config;
 
+import tools.jackson.databind.ObjectMapper;
 import com.ogc_prototype.ogc.model.enums.Role;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -11,12 +12,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtils jwtUtils;
+    private final ObjectMapper objectMapper;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -45,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
             throws IOException {
         response.setStatus(status);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.getWriter().write("{\"error\": \"" + message + "\"}");
+        response.getWriter().write(objectMapper.writeValueAsString(Map.of("error", message)));
     }
 }
 

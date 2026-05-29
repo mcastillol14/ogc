@@ -1,5 +1,6 @@
 package com.ogc_prototype.ogc.config;
 
+import tools.jackson.databind.ObjectMapper;
 import com.ogc_prototype.ogc.model.enums.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,9 +12,16 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Map;
 
 @Component
 public class RoleInterceptor implements HandlerInterceptor {
+
+    private final ObjectMapper objectMapper;
+
+    public RoleInterceptor(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     public boolean preHandle(@NonNull HttpServletRequest request,
@@ -52,7 +60,7 @@ public class RoleInterceptor implements HandlerInterceptor {
             throws IOException {
         response.setStatus(status);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.getWriter().write("{\"error\": \"" + message + "\"}");
+        response.getWriter().write(objectMapper.writeValueAsString(Map.of("error", message)));
     }
 }
 

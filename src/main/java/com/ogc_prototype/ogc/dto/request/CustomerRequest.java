@@ -28,13 +28,15 @@ public class CustomerRequest {
 
     @NotBlank
     @Email
+    @Size(max = 254)
     private String email;
 
     @NotBlank
+    @Size(max = 50)
     private String userName;
 
     @NotBlank
-    @Size(min = 24)
+    @Size(min = 24, max = 72)
     private String password;
 
     @NotBlank
@@ -43,9 +45,11 @@ public class CustomerRequest {
     private String phoneNumber;
 
     @NotBlank
+    @Size(max = 200)
     private String address;
 
     @NotBlank
+    @Size(max = 100)
     private String city;
 
     @NotNull
@@ -54,6 +58,7 @@ public class CustomerRequest {
     private Integer zipCode;
 
     @NotBlank
+    @Size(max = 100)
     private String country;
 
     @Builder.Default
