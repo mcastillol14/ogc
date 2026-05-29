@@ -14,8 +14,10 @@ public class ProductResponse {
     private Double price;
     private Double cbdPercentage;
     private Double thcPercentage;
-    private Double cbgPercentage;
-    private Double cbnPercentage;
+    private Double ohTenPercentage;
+    private Double msPercentage;
+    private Double nano10Percentage;
+    private Double deltaHcPercentage;
     private boolean active;
     private Double stock; // computed: sum of LotStock.remainingWeight for this product
     private LocalDateTime createdAt;

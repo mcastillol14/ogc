@@ -40,12 +40,22 @@ public class ProductRequest {
     @NotNull
     @PositiveOrZero
     @DecimalMax("100.0")
-    private Double cbgPercentage;
+    private Double ohTenPercentage;
 
     @NotNull
     @PositiveOrZero
     @DecimalMax("100.0")
-    private Double cbnPercentage;
+    private Double msPercentage;
+
+    @NotNull
+    @PositiveOrZero
+    @DecimalMax("100.0")
+    private Double nano10Percentage;
+
+    @NotNull
+    @PositiveOrZero
+    @DecimalMax("100.0")
+    private Double deltaHcPercentage;
 
     @Builder.Default
     private boolean active = true;
