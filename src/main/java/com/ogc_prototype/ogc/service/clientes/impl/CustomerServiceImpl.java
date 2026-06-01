@@ -6,7 +6,9 @@ import com.ogc_prototype.ogc.dto.response.CustomerResponse;
 import com.ogc_prototype.ogc.exception.CustomerException;
 import com.ogc_prototype.ogc.mapper.CustomerMapper;
 import com.ogc_prototype.ogc.model.Customer;
+import com.ogc_prototype.ogc.model.PasswordHistory;
 import com.ogc_prototype.ogc.repository.CustomerRepository;
+import com.ogc_prototype.ogc.repository.PasswordHistoryRepository;
 import com.ogc_prototype.ogc.service.clientes.CustomerService;
 import com.ogc_prototype.ogc.service.clientes.VerificationService;
 import org.springframework.stereotype.Service;
@@ -21,12 +23,15 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final PasswordManager passwordManager;
     private final VerificationService verificationService;
+    private final PasswordHistoryRepository passwordHistoryRepository;
 
     public CustomerServiceImpl(CustomerRepository customerRepository,
-            PasswordManager passwordManager, VerificationService verificationService) {
+            PasswordManager passwordManager, VerificationService verificationService,
+            PasswordHistoryRepository passwordHistoryRepository) {
         this.customerRepository = customerRepository;
         this.passwordManager = passwordManager;
         this.verificationService = verificationService;
+        this.passwordHistoryRepository = passwordHistoryRepository;
     }
 
     @Override
@@ -55,7 +60,10 @@ public class CustomerServiceImpl implements CustomerService {
         }
         Customer customer = CustomerMapper.toEntity(request);
         customer.setPassword(passwordManager.encode(request.getPassword()));
-        CustomerResponse response = CustomerMapper.toResponse(customerRepository.save(customer));
+        Customer saved = customerRepository.save(customer);
+        passwordHistoryRepository.save(PasswordHistory.builder().customer(saved)
+                .hashedPassword(saved.getPassword()).build());
+        CustomerResponse response = CustomerMapper.toResponse(saved);
         verificationService.sendCode(customer.getEmail());
         return response;
     }

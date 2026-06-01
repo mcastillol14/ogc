@@ -36,7 +36,8 @@ public class CustomerRequest {
     private String userName;
 
     @NotBlank
-    @Size(min = 24, max = 72)
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,72}$",
+            message = "La contraseña debe tener mínimo 8 caracteres, al menos una mayúscula, una minúscula y un número")
     private String password;
 
     @NotBlank

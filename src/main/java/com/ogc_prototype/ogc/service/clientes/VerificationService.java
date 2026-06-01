@@ -1,10 +1,15 @@
 package com.ogc_prototype.ogc.service.clientes;
 
+import com.ogc_prototype.ogc.model.enums.VerificationCodePurpose;
+
 public interface VerificationService {
 
-    /** Genera y envía un código de verificación al email indicado. */
     void sendCode(String email);
 
-    /** Valida el código y marca la cuenta como verificada. */
+    void sendCode(String email, VerificationCodePurpose purpose);
+
+    /** Valida el código de verificación de cuenta y marca la cuenta como verificada. */
     void verifyCode(String email, String code);
+
+    void validateCode(String email, String code, VerificationCodePurpose purpose);
 }

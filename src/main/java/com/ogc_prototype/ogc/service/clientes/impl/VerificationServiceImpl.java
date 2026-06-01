@@ -4,6 +4,7 @@ import com.ogc_prototype.ogc.exception.CustomerException;
 import com.ogc_prototype.ogc.exception.VerificationException;
 import com.ogc_prototype.ogc.model.Customer;
 import com.ogc_prototype.ogc.model.VerificationCode;
+import com.ogc_prototype.ogc.model.enums.VerificationCodePurpose;
 import com.ogc_prototype.ogc.repository.CustomerRepository;
 import com.ogc_prototype.ogc.repository.VerificationCodeRepository;
 import com.ogc_prototype.ogc.service.clientes.EmailService;
@@ -37,13 +38,18 @@ public class VerificationServiceImpl implements VerificationService {
     @Override
     @Transactional
     public void sendCode(String email) {
-        // Elimina códigos anteriores para ese email
-        codeRepository.deleteByEmail(email);
+        sendCode(email, VerificationCodePurpose.EMAIL_VERIFICATION);
+    }
+
+    @Override
+    @Transactional
+    public void sendCode(String email, VerificationCodePurpose purpose) {
+        codeRepository.deleteByEmailAndPurpose(email, purpose);
 
         String code = String.format("%06d", RANDOM.nextInt(1_000_000));
 
         VerificationCode record = VerificationCode.builder().email(email).code(code)
-                .expiresAt(LocalDateTime.now().plusMinutes(expiryMinutes)).build();
+                .purpose(purpose).expiresAt(LocalDateTime.now().plusMinutes(expiryMinutes)).build();
         codeRepository.save(record);
 
         emailService.sendVerificationCode(email, code);
@@ -59,9 +65,18 @@ public class VerificationServiceImpl implements VerificationService {
             throw VerificationException.alreadyVerified();
         }
 
-        VerificationCode record =
-                codeRepository.findTopByEmailAndUsedFalseOrderByExpiresAtDesc(email)
-                        .orElseThrow(VerificationException::invalidOrExpired);
+        validateCode(email, code, VerificationCodePurpose.EMAIL_VERIFICATION);
+
+        customer.setEmailVerified(true);
+        customerRepository.save(customer);
+    }
+
+    @Override
+    @Transactional
+    public void validateCode(String email, String code, VerificationCodePurpose purpose) {
+        VerificationCode record = codeRepository
+                .findTopByEmailAndPurposeAndUsedFalseOrderByExpiresAtDesc(email, purpose)
+                .orElseThrow(VerificationException::invalidOrExpired);
 
         if (LocalDateTime.now().isAfter(record.getExpiresAt())) {
             throw VerificationException.invalidOrExpired();
@@ -73,8 +88,5 @@ public class VerificationServiceImpl implements VerificationService {
 
         record.setUsed(true);
         codeRepository.save(record);
-
-        customer.setEmailVerified(true);
-        customerRepository.save(customer);
     }
 }

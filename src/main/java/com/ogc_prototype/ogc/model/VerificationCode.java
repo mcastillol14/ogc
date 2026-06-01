@@ -1,5 +1,6 @@
 package com.ogc_prototype.ogc.model;
 
+import com.ogc_prototype.ogc.model.enums.VerificationCodePurpose;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,11 @@ public class VerificationCode {
 
     @Column(nullable = false, length = 6)
     private String code;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private VerificationCodePurpose purpose = VerificationCodePurpose.EMAIL_VERIFICATION;
 
     @Column(nullable = false)
     private LocalDateTime expiresAt;

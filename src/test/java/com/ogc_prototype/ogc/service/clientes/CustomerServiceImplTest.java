@@ -7,6 +7,7 @@ import com.ogc_prototype.ogc.exception.CustomerException;
 import com.ogc_prototype.ogc.model.Customer;
 import com.ogc_prototype.ogc.model.enums.Role;
 import com.ogc_prototype.ogc.repository.CustomerRepository;
+import com.ogc_prototype.ogc.repository.PasswordHistoryRepository;
 import com.ogc_prototype.ogc.service.clientes.VerificationService;
 import com.ogc_prototype.ogc.service.clientes.impl.CustomerServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,9 @@ class CustomerServiceImplTest {
 
     @Mock
     private VerificationService verificationService;
+
+    @Mock
+    private PasswordHistoryRepository passwordHistoryRepository;
 
     @InjectMocks
     private CustomerServiceImpl service;
