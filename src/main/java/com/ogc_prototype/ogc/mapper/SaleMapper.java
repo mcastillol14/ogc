@@ -14,12 +14,18 @@ public class SaleMapper {
         return SaleResponse.builder().id(sale.getId()).customerId(customer.getId())
                 .customerName(customer.getName() + " " + customer.getLastName())
                 .saleDate(sale.getSaleDate()).totalAmount(sale.getTotalAmount())
-                .notes(sale.getNotes()).createdAt(sale.getCreatedAt())
+                .notes(sale.getNotes()).discounted(sale.isDiscounted())
+                .discountMode(sale.getDiscountMode()).discountValue(sale.getDiscountValue())
+                .createdAt(sale.getCreatedAt())
                 .updatedAt(sale.getUpdatedAt()).build();
     }
 
     public static Sale toEntity(SaleRequest request, Customer customer) {
         return Sale.builder().customer(customer).saleDate(request.getSaleDate())
-                .notes(request.getNotes()).build();
+                .notes(request.getNotes())
+                .discounted(Boolean.TRUE.equals(request.getDiscounted()))
+                .discountMode(request.getDiscountMode())
+                .discountValue(request.getDiscountValue())
+                .build();
     }
 }

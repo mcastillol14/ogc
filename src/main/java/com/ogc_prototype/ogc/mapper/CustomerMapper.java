@@ -15,8 +15,7 @@ public class CustomerMapper {
                 .userName(customer.getUserName()).role(customer.getRole())
                 .phoneNumber(customer.getPhoneNumber()).address(customer.getAddress())
                 .city(customer.getCity()).zipCode(customer.getZipCode())
-                .country(customer.getCountry()).fidelityPoints(customer.getFidelityPoints())
-                .newsletterSubscribed(customer.isNewsletterSubscribed())
+                .country(customer.getCountry()).newsletterSubscribed(customer.isNewsletterSubscribed())
                 .createdAt(customer.getCreatedAt()).updatedAt(customer.getUpdatedAt()).build();
     }
 
@@ -26,6 +25,7 @@ public class CustomerMapper {
                 .email(request.getEmail()).userName(request.getUserName()).role(Role.CUSTOMER)
                 .phoneNumber(request.getPhoneNumber()).address(request.getAddress())
                 .city(request.getCity()).zipCode(request.getZipCode()).country(request.getCountry())
-                .newsletterSubscribed(request.isNewsletterSubscribed()).build();
+                .newsletterSubscribed(Boolean.TRUE.equals(request.getNewsletterSubscribed()))
+                .build();
     }
 }

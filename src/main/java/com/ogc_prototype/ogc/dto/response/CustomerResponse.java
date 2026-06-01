@@ -19,7 +19,6 @@ public class CustomerResponse {
     private String city;
     private Integer zipCode;
     private String country;
-    private int fidelityPoints;
     private boolean newsletterSubscribed;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

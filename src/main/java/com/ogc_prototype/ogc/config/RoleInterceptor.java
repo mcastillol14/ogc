@@ -37,7 +37,7 @@ public class RoleInterceptor implements HandlerInterceptor {
         }
 
         if (annotation == null) {
-            return true; // endpoint público, sin restricción
+            return true; 
         }
 
         Role userRole = (Role) request.getAttribute("role");

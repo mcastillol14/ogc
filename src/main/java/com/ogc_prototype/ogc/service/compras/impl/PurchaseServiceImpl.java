@@ -34,6 +34,12 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
+    public List<PurchaseResponse> getAllOrderedByDate() {
+        return purchaseRepository.findAllByOrderByCreatedAtDesc().stream()
+                .map(PurchaseMapper::toResponse).toList();
+    }
+
+    @Override
     public PurchaseResponse getById(Integer id) {
         Purchase purchase =
                 purchaseRepository.findById(id).orElseThrow(() -> PurchaseException.notFound(id));

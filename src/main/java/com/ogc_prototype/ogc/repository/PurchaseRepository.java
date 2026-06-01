@@ -10,4 +10,6 @@ import java.util.List;
 public interface PurchaseRepository extends JpaRepository<Purchase, Integer> {
 
     List<Purchase> findAllByProviderId(Integer providerId);
+
+    List<Purchase> findAllByOrderByCreatedAtDesc();
 }

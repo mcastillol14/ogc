@@ -13,6 +13,16 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final JwtFilter jwtFilter;
     private final RoleInterceptor roleInterceptor;
+    private final RateLimiterFilter rateLimiterFilter;
+
+    @Bean
+    public FilterRegistrationBean<RateLimiterFilter> rateLimiterFilterRegistration() {
+        FilterRegistrationBean<RateLimiterFilter> registration =
+                new FilterRegistrationBean<>(rateLimiterFilter);
+        registration.addUrlPatterns("/api/*");
+        registration.setOrder(0); 
+        return registration;
+    }
 
     @Bean
     public FilterRegistrationBean<JwtFilter> jwtFilterRegistration() {

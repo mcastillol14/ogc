@@ -2,10 +2,13 @@ package com.ogc_prototype.ogc.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import com.ogc_prototype.ogc.model.enums.DiscountMode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -46,6 +49,17 @@ public class Sale {
 
     @Column(columnDefinition = "TEXT")
     private String notes;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean discounted = false;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private DiscountMode discountMode;
+
+    @Column
+    private Double discountValue;
 
     @CreationTimestamp
     @Column(updatable = false)

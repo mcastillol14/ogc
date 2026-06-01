@@ -8,6 +8,7 @@ import com.ogc_prototype.ogc.mapper.CustomerMapper;
 import com.ogc_prototype.ogc.model.Customer;
 import com.ogc_prototype.ogc.repository.CustomerRepository;
 import com.ogc_prototype.ogc.service.clientes.CustomerService;
+import com.ogc_prototype.ogc.service.clientes.VerificationService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +20,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final PasswordManager passwordManager;
+    private final VerificationService verificationService;
 
     public CustomerServiceImpl(CustomerRepository customerRepository,
-            PasswordManager passwordManager) {
+            PasswordManager passwordManager, VerificationService verificationService) {
         this.customerRepository = customerRepository;
         this.passwordManager = passwordManager;
+        this.verificationService = verificationService;
     }
 
     @Override
@@ -52,7 +55,9 @@ public class CustomerServiceImpl implements CustomerService {
         }
         Customer customer = CustomerMapper.toEntity(request);
         customer.setPassword(passwordManager.encode(request.getPassword()));
-        return CustomerMapper.toResponse(customerRepository.save(customer));
+        CustomerResponse response = CustomerMapper.toResponse(customerRepository.save(customer));
+        verificationService.sendCode(customer.getEmail());
+        return response;
     }
 
     @Override
@@ -82,7 +87,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setCity(request.getCity());
         customer.setZipCode(request.getZipCode());
         customer.setCountry(request.getCountry());
-        customer.setNewsletterSubscribed(request.isNewsletterSubscribed());
+        customer.setNewsletterSubscribed(Boolean.TRUE.equals(request.getNewsletterSubscribed()));
         return CustomerMapper.toResponse(customerRepository.save(customer));
     }
 }

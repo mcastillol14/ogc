@@ -5,14 +5,12 @@ import com.ogc_prototype.ogc.dto.response.SaleLineResponse;
 import com.ogc_prototype.ogc.exception.LotException;
 import com.ogc_prototype.ogc.exception.SaleException;
 import com.ogc_prototype.ogc.mapper.SaleLineMapper;
-import com.ogc_prototype.ogc.model.Customer;
 import com.ogc_prototype.ogc.model.Lot;
 import com.ogc_prototype.ogc.model.LotStock;
 import com.ogc_prototype.ogc.model.Sale;
 import com.ogc_prototype.ogc.model.SaleLine;
 import com.ogc_prototype.ogc.model.StockMovement;
 import com.ogc_prototype.ogc.model.enums.MovementType;
-import com.ogc_prototype.ogc.repository.CustomerRepository;
 import com.ogc_prototype.ogc.repository.LotRepository;
 import com.ogc_prototype.ogc.repository.LotStockRepository;
 import com.ogc_prototype.ogc.repository.SaleLineRepository;
@@ -34,18 +32,15 @@ public class SaleLineServiceImpl implements SaleLineService {
     private final LotRepository lotRepository;
     private final LotStockRepository lotStockRepository;
     private final StockMovementRepository stockMovementRepository;
-    private final CustomerRepository customerRepository;
 
     public SaleLineServiceImpl(SaleLineRepository saleLineRepository, SaleRepository saleRepository,
             LotRepository lotRepository, LotStockRepository lotStockRepository,
-            StockMovementRepository stockMovementRepository,
-            CustomerRepository customerRepository) {
+            StockMovementRepository stockMovementRepository) {
         this.saleLineRepository = saleLineRepository;
         this.saleRepository = saleRepository;
         this.lotRepository = lotRepository;
         this.lotStockRepository = lotStockRepository;
         this.stockMovementRepository = stockMovementRepository;
-        this.customerRepository = customerRepository;
     }
 
     @Override
@@ -94,12 +89,6 @@ public class SaleLineServiceImpl implements SaleLineService {
         stockMovementRepository.save(StockMovement.builder().lot(lot).type(MovementType.SALIDA)
                 .weightKg(request.getWeightKg()).sale(sale).build());
 
-        // Acumular puntos de fidelidad (1 punto por kg)
-        Customer customer = sale.getCustomer();
-        customer.setFidelityPoints(
-                customer.getFidelityPoints() + (int) Math.floor(request.getWeightKg()));
-        customerRepository.save(customer);
-
         // Recalcular totalAmount de la venta
         sale.setTotalAmount(
                 sale.getTotalAmount() + request.getWeightKg() * request.getUnitPricePerKg());
@@ -126,12 +115,6 @@ public class SaleLineServiceImpl implements SaleLineService {
         stockMovementRepository.save(StockMovement.builder().lot(lot).type(MovementType.ENTRADA)
                 .weightKg(line.getWeightKg()).sale(sale)
                 .notes("Reversión por eliminación de línea de venta " + lineId).build());
-
-        // Revertir puntos de fidelidad
-        Customer customer = sale.getCustomer();
-        customer.setFidelityPoints(
-                Math.max(0, customer.getFidelityPoints() - (int) Math.floor(line.getWeightKg())));
-        customerRepository.save(customer);
 
         // Recalcular totalAmount
         sale.setTotalAmount(Math.max(0.0,

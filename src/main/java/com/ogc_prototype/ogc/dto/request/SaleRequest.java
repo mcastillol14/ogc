@@ -1,6 +1,8 @@
 package com.ogc_prototype.ogc.dto.request;
 
 import java.time.LocalDate;
+import com.ogc_prototype.ogc.model.enums.DiscountMode;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
@@ -24,5 +26,12 @@ public class SaleRequest {
 
     @Size(max = 500)
     private String notes;
+
+    private Boolean discounted;
+
+    private DiscountMode discountMode;
+
+    @DecimalMin(value = "0.01")
+    private Double discountValue;
 }
 

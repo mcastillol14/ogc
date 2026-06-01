@@ -3,6 +3,7 @@ package com.ogc_prototype.ogc.service.clientes.impl;
 import com.ogc_prototype.ogc.config.JwtUtils;
 import com.ogc_prototype.ogc.config.PasswordManager;
 import com.ogc_prototype.ogc.exception.AuthException;
+import com.ogc_prototype.ogc.exception.VerificationException;
 import com.ogc_prototype.ogc.model.Customer;
 import com.ogc_prototype.ogc.repository.CustomerRepository;
 import com.ogc_prototype.ogc.service.clientes.AuthService;
@@ -30,6 +31,9 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(AuthException::invalidCredentials);
         if (!passwordManager.matches(password, customer.getPassword())) {
             throw AuthException.invalidCredentials();
+        }
+        if (!customer.isEmailVerified()) {
+            throw VerificationException.accountNotVerified();
         }
         return jwtUtils.generateToken(customer.getId(), customer.getUserName(), customer.getRole());
     }

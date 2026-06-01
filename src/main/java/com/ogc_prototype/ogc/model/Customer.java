@@ -1,8 +1,5 @@
 package com.ogc_prototype.ogc.model;
 
-import java.time.LocalDateTime;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -39,17 +36,10 @@ public class Customer extends User {
 
     @Builder.Default
     @Column(nullable = false)
-    private int fidelityPoints = 0;
+    private boolean newsletterSubscribed = false;
 
     @Builder.Default
     @Column(nullable = false)
-    private boolean newsletterSubscribed = false;
-
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-    
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private boolean emailVerified = false;
 }
 

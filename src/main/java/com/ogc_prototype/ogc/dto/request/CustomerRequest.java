@@ -61,7 +61,6 @@ public class CustomerRequest {
     @Size(max = 100)
     private String country;
 
-    @Builder.Default
-    private boolean newsletterSubscribed = false;
+    private Boolean newsletterSubscribed;
 }
 

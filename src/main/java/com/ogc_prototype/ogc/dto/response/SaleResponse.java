@@ -2,6 +2,7 @@ package com.ogc_prototype.ogc.dto.response;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import com.ogc_prototype.ogc.model.enums.DiscountMode;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,6 +15,9 @@ public class SaleResponse {
     private LocalDate saleDate;
     private Double totalAmount;
     private String notes;
+    private boolean discounted;
+    private DiscountMode discountMode;
+    private Double discountValue;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

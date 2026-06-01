@@ -8,6 +8,8 @@ import java.util.List;
 public interface PurchaseService {
     List<PurchaseResponse> getAll();
 
+    List<PurchaseResponse> getAllOrderedByDate();
+
     PurchaseResponse getById(Integer id);
 
     PurchaseResponse create(PurchaseRequest request);
