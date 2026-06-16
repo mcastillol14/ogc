@@ -15,8 +15,7 @@ public class PurchaseLineMapper {
                 .purchaseId(line.getPurchase().getId()).productId(line.getProduct().getId())
                 .productName(line.getProduct().getName()).orderedWeightKg(line.getOrderedWeightKg())
                 .unitPricePerKg(line.getUnitPricePerKg())
-                .lotId(line.getLot() != null ? line.getLot().getId() : null)
-                .createdAt(line.getCreatedAt()).updatedAt(line.getUpdatedAt()).build();
+                .lotId(line.getLot() != null ? line.getLot().getId() : null).build();
     }
 
     public static PurchaseLine toEntity(PurchaseLineRequest request, Purchase purchase,

@@ -1,5 +1,6 @@
 package com.ogc_prototype.ogc.exception;
 
+import com.ogc_prototype.ogc.model.enums.Role;
 import org.springframework.http.HttpStatus;
 
 public class CustomerException extends AppException {
@@ -25,6 +26,11 @@ public class CustomerException extends AppException {
     public static CustomerException duplicateUsername(String userName) {
         return new CustomerException(HttpStatus.CONFLICT,
                 "El nombre de usuario '" + userName + "' ya está en uso");
+    }
+
+    public static CustomerException sameRole(Role role) {
+        return new CustomerException(HttpStatus.CONFLICT,
+                "El cliente ya tiene el rol '" + role.name() + "'");
     }
 
     public static CustomerException duplicatePhone(String phone) {

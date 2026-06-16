@@ -14,7 +14,7 @@ public class AdjustmentLineMapper {
         return AdjustmentLineResponse.builder().id(line.getId())
                 .adjustmentId(line.getAdjustment().getId()).lotId(line.getLot().getId())
                 .productName(line.getLot().getProduct().getName()).quantityKg(line.getQuantityKg())
-                .notes(line.getNotes()).createdAt(line.getCreatedAt()).build();
+                .notes(line.getNotes()).build();
     }
 
     public static AdjustmentLine toEntity(AdjustmentLineRequest request,

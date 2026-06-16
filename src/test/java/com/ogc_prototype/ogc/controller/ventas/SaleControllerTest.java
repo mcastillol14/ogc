@@ -1,5 +1,6 @@
 package com.ogc_prototype.ogc.controller.ventas;
 
+import com.ogc_prototype.ogc.dto.response.SaleLineResponse;
 import com.ogc_prototype.ogc.dto.response.SaleResponse;
 import com.ogc_prototype.ogc.exception.GlobalExceptionHandler;
 import com.ogc_prototype.ogc.exception.SaleException;
@@ -48,6 +49,11 @@ class SaleControllerTest {
     private SaleResponse sampleSale(int id, int customerId) {
         return SaleResponse.builder().id(id).customerId(customerId).customerName("Alice Smith")
                 .saleDate(LocalDate.now()).totalAmount(0.0).build();
+    }
+
+    private SaleLineResponse sampleLine(int id, int saleId) {
+        return SaleLineResponse.builder().id(id).saleId(saleId).lotId(1).productId(1)
+                .productName("OG Kush CBD").weightKg(0.5).unitPricePerKg(10.0).build();
     }
 
     // ─── GET /api/sales ───
@@ -130,5 +136,108 @@ class SaleControllerTest {
 
         mockMvc.perform(put("/api/sales/1").contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void update_notFound_returns404() throws Exception {
+        when(saleService.update(eq(99), any())).thenThrow(SaleException.notFound(99));
+
+        String body = """
+                {"customerId":10,"saleDate":"2025-01-01"}
+                """;
+
+        mockMvc.perform(put("/api/sales/99").contentType(MediaType.APPLICATION_JSON).content(body))
+                .andExpect(status().isNotFound());
+    }
+
+    // ─── POST /api/sales (validación) ───
+
+    @Test
+    void create_missingCustomerId_returns400() throws Exception {
+        String body = """
+                {"saleDate":"2025-01-01"}
+                """;
+
+        mockMvc.perform(post("/api/sales").contentType(MediaType.APPLICATION_JSON).content(body))
+                .andExpect(status().isBadRequest());
+    }
+
+    // ─── GET /api/sales/{id}/lines ───
+
+    @Test
+    void getLines_adminRole_returns200() throws Exception {
+        when(saleService.getById(1)).thenReturn(sampleSale(1, 10));
+        when(saleLineService.getBySaleId(1)).thenReturn(List.of(sampleLine(1, 1)));
+
+        mockMvc.perform(
+                get("/api/sales/1/lines").requestAttr("role", Role.ADMIN).requestAttr("userId", 1))
+                .andExpect(status().isOk()).andExpect(jsonPath("$[0].id").value(1));
+    }
+
+    @Test
+    void getLines_customerIDOR_ownSale_returns200() throws Exception {
+        when(saleService.getById(1)).thenReturn(sampleSale(1, 5));
+        when(saleLineService.getBySaleId(1)).thenReturn(List.of(sampleLine(1, 1)));
+
+        mockMvc.perform(get("/api/sales/1/lines").requestAttr("role", Role.CUSTOMER)
+                .requestAttr("userId", 5)).andExpect(status().isOk());
+    }
+
+    @Test
+    void getLines_customerIDOR_otherSale_returns403() throws Exception {
+        when(saleService.getById(1)).thenReturn(sampleSale(1, 5));
+
+        mockMvc.perform(get("/api/sales/1/lines").requestAttr("role", Role.CUSTOMER)
+                .requestAttr("userId", 9)).andExpect(status().isForbidden());
+    }
+
+    // ─── GET /api/sales/{id}/lines/{lineId} ───
+
+    @Test
+    void getLine_found_returns200() throws Exception {
+        when(saleLineService.getById(1, 1)).thenReturn(sampleLine(1, 1));
+
+        mockMvc.perform(get("/api/sales/1/lines/1")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1));
+    }
+
+    @Test
+    void getLine_notFound_returns404() throws Exception {
+        when(saleLineService.getById(1, 99)).thenThrow(SaleException.lineNotFound(99));
+
+        mockMvc.perform(get("/api/sales/1/lines/99")).andExpect(status().isNotFound());
+    }
+
+    // ─── POST /api/sales/{id}/lines ───
+
+    @Test
+    void addLine_validRequest_returns201() throws Exception {
+        when(saleLineService.create(any())).thenReturn(sampleLine(1, 1));
+
+        String body = """
+                {"saleId":1,"lotId":2,"weightKg":0.5,"unitPricePerKg":10.0}
+                """;
+
+        mockMvc.perform(
+                post("/api/sales/1/lines").contentType(MediaType.APPLICATION_JSON).content(body))
+                .andExpect(status().isCreated()).andExpect(jsonPath("$.saleId").value(1));
+    }
+
+    @Test
+    void addLine_missingFields_returns400() throws Exception {
+        String body = """
+                {"saleId":1}
+                """;
+
+        mockMvc.perform(
+                post("/api/sales/1/lines").contentType(MediaType.APPLICATION_JSON).content(body))
+                .andExpect(status().isBadRequest());
+    }
+
+    // ─── DELETE /api/sales/{id}/lines/{lineId} ───
+
+    @Test
+    void deleteLine_returns204() throws Exception {
+        mockMvc.perform(delete("/api/sales/1/lines/1")).andExpect(status().isNoContent());
     }
 }

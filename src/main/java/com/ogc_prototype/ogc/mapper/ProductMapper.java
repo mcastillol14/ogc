@@ -8,7 +8,6 @@ public class ProductMapper {
 
     private ProductMapper() {}
 
-    // el stock se calcula externamente sumando LotStock.remainingWeight del producto
     public static ProductResponse toResponse(Product product, Double stock) {
         return ProductResponse.builder().id(product.getId()).name(product.getName())
                 .description(product.getDescription()).price(product.getPrice())
@@ -17,8 +16,7 @@ public class ProductMapper {
                 .msPercentage(product.getMsPercentage())
                 .nano10Percentage(product.getNano10Percentage())
                 .deltaHcPercentage(product.getDeltaHcPercentage()).active(product.isActive())
-                .stock(stock).createdAt(product.getCreatedAt()).updatedAt(product.getUpdatedAt())
-                .build();
+                .stock(stock).build();
     }
 
     public static Product toEntity(ProductRequest request) {

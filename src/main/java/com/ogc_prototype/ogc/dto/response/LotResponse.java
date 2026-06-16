@@ -1,6 +1,5 @@
 package com.ogc_prototype.ogc.dto.response;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
@@ -18,8 +17,6 @@ public class LotResponse {
     private Double weight;
     private Date expirationDate;
     private String description;
-    private Double remainingWeight; // from LotStock
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Double remainingWeight;
 }
 

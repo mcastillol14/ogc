@@ -19,7 +19,6 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 
 @Slf4j
-@Component
 public class RateLimiterFilter extends OncePerRequestFilter {
 
     @Value("${rate.limit.capacity:60}")

@@ -10,7 +10,7 @@ public class InventoryAdjustmentMapper {
 
     public static InventoryAdjustmentResponse toResponse(InventoryAdjustment adjustment) {
         return InventoryAdjustmentResponse.builder().id(adjustment.getId())
-                .reason(adjustment.getReason()).createdAt(adjustment.getCreatedAt()).build();
+                .reason(adjustment.getReason()).build();
     }
 
     public static InventoryAdjustment toEntity(InventoryAdjustmentRequest request) {

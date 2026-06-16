@@ -14,8 +14,7 @@ public class PurchaseMapper {
                 .providerId(purchase.getProvider().getId())
                 .providerName(purchase.getProvider().getName())
                 .expectedDate(purchase.getExpectedDate()).receivedDate(purchase.getReceivedDate())
-                .totalAmount(purchase.getTotalAmount()).notes(purchase.getNotes())
-                .createdAt(purchase.getCreatedAt()).updatedAt(purchase.getUpdatedAt()).build();
+                .totalAmount(purchase.getTotalAmount()).notes(purchase.getNotes()).build();
     }
 
     public static Purchase toEntity(PurchaseRequest request, Provider provider) {

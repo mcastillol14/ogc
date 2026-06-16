@@ -1,7 +1,6 @@
 package com.ogc_prototype.ogc.dto.response;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,7 +14,5 @@ public class PurchaseResponse {
     private LocalDate receivedDate;
     private Double totalAmount;
     private String notes;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }
 

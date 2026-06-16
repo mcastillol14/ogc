@@ -1,6 +1,7 @@
 package com.ogc_prototype.ogc.controller.clientes;
 
 import com.ogc_prototype.ogc.config.RequiresRole;
+import com.ogc_prototype.ogc.dto.request.ChangeRoleRequest;
 import com.ogc_prototype.ogc.dto.request.CustomerRequest;
 import com.ogc_prototype.ogc.dto.response.CustomerResponse;
 import com.ogc_prototype.ogc.exception.AppException;
@@ -44,10 +45,13 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.update(id, body));
     }
 
-    /**
-     * Verifica que un CUSTOMER solo pueda acceder a su propio recurso. Un ADMIN puede acceder a
-     * cualquier recurso.
-     */
+    @PatchMapping("/{id}/role")
+    @RequiresRole(Role.ADMIN)
+    public ResponseEntity<CustomerResponse> changeRole(@PathVariable Integer id,
+            @Valid @RequestBody ChangeRoleRequest body) {
+        return ResponseEntity.ok(customerService.changeRole(id, body.getRole()));
+    }
+
     private void verifyAccess(Integer resourceId, HttpServletRequest request) {
         Role role = (Role) request.getAttribute("role");
         Integer requesterId = (Integer) request.getAttribute("userId");

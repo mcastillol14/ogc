@@ -1,6 +1,5 @@
 package com.ogc_prototype.ogc.dto.response;
 
-import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,7 +13,5 @@ public class SaleLineResponse {
     private String productName;
     private Double weightKg;
     private Double unitPricePerKg;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }
 

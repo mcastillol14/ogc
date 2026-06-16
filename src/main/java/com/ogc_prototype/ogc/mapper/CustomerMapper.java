@@ -15,8 +15,8 @@ public class CustomerMapper {
                 .userName(customer.getUserName()).role(customer.getRole())
                 .phoneNumber(customer.getPhoneNumber()).address(customer.getAddress())
                 .city(customer.getCity()).zipCode(customer.getZipCode())
-                .country(customer.getCountry()).newsletterSubscribed(customer.isNewsletterSubscribed())
-                .createdAt(customer.getCreatedAt()).updatedAt(customer.getUpdatedAt()).build();
+                .country(customer.getCountry())
+                .newsletterSubscribed(customer.isNewsletterSubscribed()).build();
     }
 
     // La contraseña NO se asigna aqui

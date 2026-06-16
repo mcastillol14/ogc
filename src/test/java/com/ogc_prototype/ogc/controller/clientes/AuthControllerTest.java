@@ -113,7 +113,7 @@ class AuthControllerTest {
     void register_validRequest_returns201() throws Exception {
         CustomerResponse created = CustomerResponse.builder().id(1).name("Alice").lastName("Smith")
                 .email("alice@example.com").userName("alice123").role(Role.CUSTOMER)
-                .phoneNumber("+34611111111").address("Calle 1").city("Madrid").zipCode(28001)
+                .phoneNumber("+34611111111").address("Calle 1").city("Madrid").zipCode("28001")
                 .country("ES").build();
         when(customerService.create(any())).thenReturn(created);
 
@@ -127,7 +127,7 @@ class AuthControllerTest {
                   "phoneNumber":"+34611111111",
                   "address":"Calle 1",
                   "city":"Madrid",
-                  "zipCode":28001,
+                  "zipCode":"28001",
                   "country":"ES"
                 }
                 """;

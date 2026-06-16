@@ -48,8 +48,8 @@ class AuthServiceImplTest {
     private Customer buildCustomer() {
         return Customer.builder().id(1).name("Alice").lastName("Smith").email("alice@example.com")
                 .userName("alice123").password("$2a$10$hashedPassword").role(Role.CUSTOMER)
-                .phoneNumber("+34600000001").address("Calle Mayor 1").city("Madrid").zipCode(28001)
-                .country("ES").emailVerified(true).build();
+                .phoneNumber("+34600000001").address("Calle Mayor 1").city("Madrid")
+                .zipCode("28001").country("ES").emailVerified(true).build();
     }
 
     // ---- login ----

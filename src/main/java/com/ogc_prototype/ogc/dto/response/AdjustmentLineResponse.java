@@ -1,6 +1,5 @@
 package com.ogc_prototype.ogc.dto.response;
 
-import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,6 +12,5 @@ public class AdjustmentLineResponse {
     private String productName;
     private Double quantityKg;
     private String notes;
-    private LocalDateTime createdAt;
 }
 

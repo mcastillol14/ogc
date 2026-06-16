@@ -1,10 +1,7 @@
 package com.ogc_prototype.ogc.dto.request;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -53,10 +50,9 @@ public class CustomerRequest {
     @Size(max = 100)
     private String city;
 
-    @NotNull
-    @Min(1000)
-    @Max(52999)
-    private Integer zipCode;
+    @NotBlank
+    @Pattern(regexp = "^\\d{5}$", message = "El código postal debe tener exactamente 5 dígitos")
+    private String zipCode;
 
     @NotBlank
     @Size(max = 100)

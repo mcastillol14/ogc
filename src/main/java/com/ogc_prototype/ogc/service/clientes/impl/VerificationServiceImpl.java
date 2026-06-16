@@ -57,6 +57,17 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Override
     @Transactional
+    public void resendVerificationCode(String email) {
+        Customer customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> CustomerException.notFound(email));
+        if (customer.isEmailVerified()) {
+            throw VerificationException.alreadyVerified();
+        }
+        sendCode(email, VerificationCodePurpose.EMAIL_VERIFICATION);
+    }
+
+    @Override
+    @Transactional
     public void verifyCode(String email, String code) {
         Customer customer = customerRepository.findByEmail(email)
                 .orElseThrow(() -> CustomerException.notFound(email));

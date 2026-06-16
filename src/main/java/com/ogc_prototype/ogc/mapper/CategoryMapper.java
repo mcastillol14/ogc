@@ -11,8 +11,7 @@ public class CategoryMapper {
     public static CategoryResponse toResponse(Category category) {
         return CategoryResponse.builder().id(category.getId()).name(category.getName())
                 .slug(category.getSlug()).description(category.getDescription())
-                .active(category.isActive()).createdAt(category.getCreatedAt())
-                .updatedAt(category.getUpdatedAt()).build();
+                .active(category.isActive()).build();
     }
 
     public static Category toEntity(CategoryRequest request) {

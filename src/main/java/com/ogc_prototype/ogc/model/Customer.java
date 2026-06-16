@@ -28,8 +28,8 @@ public class Customer extends User {
     @Column(nullable = false)
     private String city;
 
-    @Column(nullable = false)
-    private Integer zipCode;
+    @Column(nullable = false, length = 5)
+    private String zipCode;
 
     @Column(nullable = false)
     private String country;

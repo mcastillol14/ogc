@@ -1,20 +1,19 @@
 package com.ogc_prototype.ogc.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import com.ogc_prototype.ogc.model.enums.DiscountMode;
+import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,40 +25,34 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "sales")
+@Table(name = "packs")
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Sale {
+public class Pack {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = true)
-    private Customer customer;
-
     @Column(nullable = false)
-    private LocalDate saleDate;
-
-    @Builder.Default
-    @Column(nullable = false)
-    private Double totalAmount = 0.0;
+    private String name;
 
     @Column(columnDefinition = "TEXT")
-    private String notes;
+    private String description;
+
+    @Column(nullable = false)
+    private Double price;
+
+    @Builder.Default
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "pack_products", joinColumns = @JoinColumn(name = "pack_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<Product> products = new ArrayList<>();
 
     @Builder.Default
     @Column(nullable = false)
-    private boolean discounted = false;
-
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private DiscountMode discountMode;
-
-    @Column
-    private Double discountValue;
+    private boolean active = true;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -68,4 +61,3 @@ public class Sale {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 }
-

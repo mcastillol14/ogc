@@ -40,7 +40,7 @@ class CustomerControllerTest {
     private CustomerResponse sampleCustomer(int id) {
         return CustomerResponse.builder().id(id).name("Alice").lastName("Smith")
                 .email("alice@example.com").userName("alice123").role(Role.CUSTOMER)
-                .phoneNumber("+34611111111").address("Calle 1").city("Madrid").zipCode(28001)
+                .phoneNumber("+34611111111").address("Calle 1").city("Madrid").zipCode("28001")
                 .country("ES").build();
     }
 

@@ -41,7 +41,7 @@ class SaleServiceImplTest {
     private Customer buildCustomer(int id) {
         return Customer.builder().id(id).name("Alice").lastName("Smith").email("alice@example.com")
                 .userName("alice").password("hash").role(Role.CUSTOMER).phoneNumber("+34600000001")
-                .address("Calle 1").city("Madrid").zipCode(28001).country("ES").build();
+                .address("Calle 1").city("Madrid").zipCode("28001").country("ES").build();
     }
 
     private Sale buildSale(int id, Customer customer) {

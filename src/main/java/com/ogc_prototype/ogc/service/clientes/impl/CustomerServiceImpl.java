@@ -7,6 +7,7 @@ import com.ogc_prototype.ogc.exception.CustomerException;
 import com.ogc_prototype.ogc.mapper.CustomerMapper;
 import com.ogc_prototype.ogc.model.Customer;
 import com.ogc_prototype.ogc.model.PasswordHistory;
+import com.ogc_prototype.ogc.model.enums.Role;
 import com.ogc_prototype.ogc.repository.CustomerRepository;
 import com.ogc_prototype.ogc.repository.PasswordHistoryRepository;
 import com.ogc_prototype.ogc.service.clientes.CustomerService;
@@ -96,6 +97,18 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setZipCode(request.getZipCode());
         customer.setCountry(request.getCountry());
         customer.setNewsletterSubscribed(Boolean.TRUE.equals(request.getNewsletterSubscribed()));
+        return CustomerMapper.toResponse(customerRepository.save(customer));
+    }
+
+    @Override
+    @Transactional
+    public CustomerResponse changeRole(Integer id, Role newRole) {
+        Customer customer =
+                customerRepository.findById(id).orElseThrow(() -> CustomerException.notFound(id));
+        if (customer.getRole() == newRole) {
+            throw CustomerException.sameRole(newRole);
+        }
+        customer.setRole(newRole);
         return CustomerMapper.toResponse(customerRepository.save(customer));
     }
 }

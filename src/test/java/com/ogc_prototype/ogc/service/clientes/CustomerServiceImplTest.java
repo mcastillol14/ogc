@@ -22,6 +22,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -46,14 +47,14 @@ class CustomerServiceImplTest {
     private Customer buildCustomer(int id) {
         return Customer.builder().id(id).name("Bob").lastName("Brown").email("bob@example.com")
                 .userName("bob99").password("$2a$10$hash").role(Role.CUSTOMER)
-                .phoneNumber("+34611111111").address("Avenida 5").city("Barcelona").zipCode(8001)
+                .phoneNumber("+34611111111").address("Avenida 5").city("Barcelona").zipCode("08001")
                 .country("ES").build();
     }
 
     private CustomerRequest buildRequest() {
         return CustomerRequest.builder().name("Bob").lastName("Brown").email("bob@example.com")
                 .userName("bob99").password("passwordMustBe24CharsLong!!")
-                .phoneNumber("+34611111111").address("Avenida 5").city("Barcelona").zipCode(8001)
+                .phoneNumber("+34611111111").address("Avenida 5").city("Barcelona").zipCode("08001")
                 .country("ES").build();
     }
 
@@ -145,5 +146,39 @@ class CustomerServiceImplTest {
 
         assertThatThrownBy(() -> service.update(99, buildRequest()))
                 .isInstanceOf(CustomerException.class);
+    }
+
+    // ---- changeRole ----
+
+    @Test
+    void changeRole_notFound_throwsCustomerException() {
+        when(customerRepository.findById(99)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> service.changeRole(99, Role.ADMIN))
+                .isInstanceOf(CustomerException.class);
+    }
+
+    @Test
+    void changeRole_sameRole_throwsCustomerException() {
+        Customer customer = buildCustomer(1); // role = CUSTOMER
+        when(customerRepository.findById(1)).thenReturn(Optional.of(customer));
+
+        assertThatThrownBy(() -> service.changeRole(1, Role.CUSTOMER))
+                .isInstanceOf(CustomerException.class);
+
+        verify(customerRepository, never()).save(any());
+    }
+
+    @Test
+    void changeRole_differentRole_updatesAndReturns() {
+        Customer customer = buildCustomer(1); // role = CUSTOMER
+        when(customerRepository.findById(1)).thenReturn(Optional.of(customer));
+        when(customerRepository.save(any())).thenReturn(customer);
+
+        CustomerResponse response = service.changeRole(1, Role.ADMIN);
+
+        assertThat(customer.getRole()).isEqualTo(Role.ADMIN);
+        assertThat(response).isNotNull();
+        verify(customerRepository).save(customer);
     }
 }

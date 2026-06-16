@@ -12,4 +12,7 @@ public interface VerificationService {
     void verifyCode(String email, String code);
 
     void validateCode(String email, String code, VerificationCodePurpose purpose);
+
+    /** Reenvía el código de verificación de email si la cuenta aún no está verificada. */
+    void resendVerificationCode(String email);
 }

@@ -12,8 +12,7 @@ public class ProviderMapper {
         return ProviderResponse.builder().id(provider.getId()).name(provider.getName())
                 .email(provider.getEmail()).phoneNumber(provider.getPhoneNumber())
                 .website(provider.getWebsite()).notes(provider.getNotes())
-                .active(provider.isActive()).createdAt(provider.getCreatedAt())
-                .updatedAt(provider.getUpdatedAt()).build();
+                .active(provider.isActive()).build();
     }
 
     public static Provider toEntity(ProviderRequest request) {

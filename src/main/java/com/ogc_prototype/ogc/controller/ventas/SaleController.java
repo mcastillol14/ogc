@@ -96,7 +96,8 @@ public class SaleController {
     private void verifyCustomerAccess(Integer saleCustomerId, HttpServletRequest request) {
         Role role = (Role) request.getAttribute("role");
         Integer requesterId = (Integer) request.getAttribute("userId");
-        if (role == Role.CUSTOMER && !saleCustomerId.equals(requesterId)) {
+        if (role == Role.CUSTOMER
+                && (saleCustomerId == null || !saleCustomerId.equals(requesterId))) {
             throw new AppException(HttpStatus.FORBIDDEN,
                     "No tienes permisos para acceder a esta venta");
         }

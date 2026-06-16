@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SaleRequest {
 
-    @NotNull
     private Integer customerId;
 
     @NotNull

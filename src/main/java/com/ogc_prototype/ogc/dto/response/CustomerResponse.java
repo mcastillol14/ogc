@@ -1,6 +1,5 @@
 package com.ogc_prototype.ogc.dto.response;
 
-import java.time.LocalDateTime;
 import com.ogc_prototype.ogc.model.enums.Role;
 import lombok.Builder;
 import lombok.Data;
@@ -17,10 +16,8 @@ public class CustomerResponse {
     private String phoneNumber;
     private String address;
     private String city;
-    private Integer zipCode;
+    private String zipCode;
     private String country;
     private boolean newsletterSubscribed;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }
 

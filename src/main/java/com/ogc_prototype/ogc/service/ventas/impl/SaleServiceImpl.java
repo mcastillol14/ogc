@@ -41,8 +41,7 @@ public class SaleServiceImpl implements SaleService {
     @Override
     @Transactional
     public SaleResponse create(SaleRequest request) {
-        Customer customer = customerRepository.findById(request.getCustomerId())
-                .orElseThrow(() -> CustomerException.notFound(request.getCustomerId()));
+        Customer customer = resolveCustomer(request.getCustomerId());
         return SaleMapper.toResponse(saleRepository.save(SaleMapper.toEntity(request, customer)));
     }
 
@@ -50,11 +49,17 @@ public class SaleServiceImpl implements SaleService {
     @Transactional
     public SaleResponse update(Integer id, SaleRequest request) {
         Sale sale = saleRepository.findById(id).orElseThrow(() -> SaleException.notFound(id));
-        Customer customer = customerRepository.findById(request.getCustomerId())
-                .orElseThrow(() -> CustomerException.notFound(request.getCustomerId()));
+        Customer customer = resolveCustomer(request.getCustomerId());
         sale.setCustomer(customer);
         sale.setSaleDate(request.getSaleDate());
         sale.setNotes(request.getNotes());
         return SaleMapper.toResponse(saleRepository.save(sale));
+    }
+
+    private Customer resolveCustomer(Integer customerId) {
+        if (customerId == null)
+            return null;
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> CustomerException.notFound(customerId));
     }
 }

@@ -14,8 +14,7 @@ public class SaleLineMapper {
         return SaleLineResponse.builder().id(line.getId()).saleId(line.getSale().getId())
                 .lotId(line.getLot().getId()).productId(line.getLot().getProduct().getId())
                 .productName(line.getLot().getProduct().getName()).weightKg(line.getWeightKg())
-                .unitPricePerKg(line.getUnitPricePerKg()).createdAt(line.getCreatedAt())
-                .updatedAt(line.getUpdatedAt()).build();
+                .unitPricePerKg(line.getUnitPricePerKg()).build();
     }
 
     public static SaleLine toEntity(SaleLineRequest request, Sale sale, Lot lot) {

@@ -1,6 +1,5 @@
 package com.ogc_prototype.ogc.dto.response;
 
-import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,8 +17,6 @@ public class ProductResponse {
     private Double nano10Percentage;
     private Double deltaHcPercentage;
     private boolean active;
-    private Double stock; // computed: sum of LotStock.remainingWeight for this product
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Double stock; 
 }
 

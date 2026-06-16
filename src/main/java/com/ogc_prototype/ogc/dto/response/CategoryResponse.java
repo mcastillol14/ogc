@@ -1,6 +1,5 @@
 package com.ogc_prototype.ogc.dto.response;
 
-import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,7 +11,5 @@ public class CategoryResponse {
     private String slug;
     private String description;
     private boolean active;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }
 

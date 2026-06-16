@@ -11,21 +11,20 @@ public class SaleMapper {
 
     public static SaleResponse toResponse(Sale sale) {
         Customer customer = sale.getCustomer();
-        return SaleResponse.builder().id(sale.getId()).customerId(customer.getId())
-                .customerName(customer.getName() + " " + customer.getLastName())
-                .saleDate(sale.getSaleDate()).totalAmount(sale.getTotalAmount())
-                .notes(sale.getNotes()).discounted(sale.isDiscounted())
-                .discountMode(sale.getDiscountMode()).discountValue(sale.getDiscountValue())
-                .createdAt(sale.getCreatedAt())
-                .updatedAt(sale.getUpdatedAt()).build();
+        Integer customerId = customer != null ? customer.getId() : null;
+        String customerName =
+                customer != null ? customer.getName() + " " + customer.getLastName() : null;
+        return SaleResponse.builder().id(sale.getId()).customerId(customerId)
+                .customerName(customerName).saleDate(sale.getSaleDate())
+                .totalAmount(sale.getTotalAmount()).notes(sale.getNotes())
+                .discounted(sale.isDiscounted()).discountMode(sale.getDiscountMode())
+                .discountValue(sale.getDiscountValue()).build();
     }
 
     public static Sale toEntity(SaleRequest request, Customer customer) {
         return Sale.builder().customer(customer).saleDate(request.getSaleDate())
-                .notes(request.getNotes())
-                .discounted(Boolean.TRUE.equals(request.getDiscounted()))
-                .discountMode(request.getDiscountMode())
-                .discountValue(request.getDiscountValue())
+                .notes(request.getNotes()).discounted(Boolean.TRUE.equals(request.getDiscounted()))
+                .discountMode(request.getDiscountMode()).discountValue(request.getDiscountValue())
                 .build();
     }
 }

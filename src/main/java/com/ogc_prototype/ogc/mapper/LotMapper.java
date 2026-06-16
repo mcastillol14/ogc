@@ -18,8 +18,7 @@ public class LotMapper {
                 .categoryName(lot.getCategory().getName()).providerId(lot.getProvider().getId())
                 .providerName(lot.getProvider().getName()).weight(lot.getWeight())
                 .expirationDate(lot.getExpirationDate()).description(lot.getDescription())
-                .remainingWeight(remainingWeight).createdAt(lot.getCreatedAt())
-                .updatedAt(lot.getUpdatedAt()).build();
+                .remainingWeight(remainingWeight).build();
     }
 
     public static Lot toEntity(LotRequest request, Product product, Category category,

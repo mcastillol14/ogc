@@ -50,21 +50,31 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/verify/resend")
+    public ResponseEntity<Map<String, String>> resendVerificationCode(
+            @Valid @RequestBody ForgotPasswordRequest request) {
+        verificationService.resendVerificationCode(request.getEmail());
+        return ResponseEntity
+                .ok(Map.of("message", "Se ha reenviado el código de verificación a tu correo"));
+    }
+
     @PostMapping("/password/change/request")
     @RequiresRole({Role.CUSTOMER, Role.ADMIN})
-    public ResponseEntity<Map<String, String>> requestPasswordChange(HttpServletRequest httpRequest) {
+    public ResponseEntity<Map<String, String>> requestPasswordChange(
+            HttpServletRequest httpRequest) {
         Integer userId = (Integer) httpRequest.getAttribute("userId");
         authService.requestPasswordChange(userId);
-        return ResponseEntity.ok(Map.of("message", "Se ha enviado un código de verificación a tu correo"));
+        return ResponseEntity
+                .ok(Map.of("message", "Se ha enviado un código de verificación a tu correo"));
     }
 
     @PostMapping("/password/change/confirm")
     @RequiresRole({Role.CUSTOMER, Role.ADMIN})
-    public ResponseEntity<Void> confirmPasswordChange(@Valid @RequestBody ChangePasswordRequest request,
-            HttpServletRequest httpRequest) {
+    public ResponseEntity<Void> confirmPasswordChange(
+            @Valid @RequestBody ChangePasswordRequest request, HttpServletRequest httpRequest) {
         Integer userId = (Integer) httpRequest.getAttribute("userId");
-        authService.confirmPasswordChange(userId, request.getCurrentPassword(),
-                request.getCode(), request.getNewPassword());
+        authService.confirmPasswordChange(userId, request.getCurrentPassword(), request.getCode(),
+                request.getNewPassword());
         return ResponseEntity.ok().build();
     }
 
